@@ -9,9 +9,10 @@ import com.xd.pre.modules.sys.dto.UserDTO;
 import java.util.Set;
 
 /**
- * <p>
  * 用户表 服务类
- * </p>
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
  *
  */
 public interface ISysUserService extends IService<SysUser> {

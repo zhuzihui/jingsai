@@ -6,9 +6,10 @@ import com.xd.pre.modules.sys.domain.SysUserRole;
 import java.util.List;
 
 /**
- * <p>
  * 用户角色表 服务类
- * </p>
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
  *
  */
 public interface ISysUserRoleService extends IService<SysUserRole> {

@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @Classname DataScope
- * @Description 数据权限查询参数
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: 数据权限查询参数
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

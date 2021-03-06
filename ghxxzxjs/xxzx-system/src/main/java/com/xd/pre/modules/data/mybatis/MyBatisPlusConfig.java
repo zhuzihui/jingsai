@@ -18,9 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName MyBatisPlusConfig
- * @Mail lihaodongmail@163.com
- * @Description Mybatis-Plus配置
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
+ * Mybatis-Plus配置
  **/
 
 @EnableTransactionManagement

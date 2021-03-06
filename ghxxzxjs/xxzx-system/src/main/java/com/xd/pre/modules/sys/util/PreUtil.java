@@ -1,5 +1,7 @@
 package com.xd.pre.modules.sys.util;
 
+import com.xd.pre.modules.encryption.HexUtil;
+import com.xd.pre.modules.encryption.Sm4Util;
 import com.xd.pre.modules.sys.domain.SysDept;
 import com.xd.pre.modules.sys.domain.SysMenu;
 import com.xd.pre.modules.sys.vo.DeptTreeVo;
@@ -20,8 +22,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
+ * @auther:zlk
  * @Classname PreUtil
- * @Description pre系统用户工具类
+ * @Description 系统用户工具类
  */
 @UtilityClass
 public class PreUtil {
@@ -194,6 +197,28 @@ public class PreUtil {
         return passwordEncoder.matches(newPass, passwordEncoderOldPass);
     }
 
+
+    public String sm4EncryptECB(String pass){
+        String password = null;
+        try {
+            password = Sm4Util.encryptECB(HexUtil.hexToByte(Sm4Util.sm4key),pass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
+
+    public String sm4decryptECB(String pass){
+        String password = null;
+        try {
+            password = Sm4Util.decryptECB(HexUtil.hexToByte(Sm4Util.sm4key),pass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
+
+
     /**
      * 不重复的验证码
      *
@@ -224,11 +249,13 @@ public class PreUtil {
         return stringBuilder.toString();
     }
 
-    public static void main(String[] args) throws ParseException {
-        BasicTextEncryptor encryptor = new BasicTextEncryptor();
+    public static void main(String[] args) throws Exception {
+       /* BasicTextEncryptor encryptor = new BasicTextEncryptor();
         encryptor.setPassword("EbfYkitulv73I2p0mXI50JMXoaxZTKJ1");
         System.out.println(encryptor.decrypt("upnvZ1wV5hzuS7Y8UixYJv1tsxNMUHgfnPCIY6Rh3liDh729Ro11+aCDJzI4mILg6eygkozi/NBWXIxhaAE20mS6Bi231/zR+dR66MqfCrJTKFBTLl+MRxt5BPwa6Y0rDzyeP1YOaCLc7FmZsq5uH+mkbH/xiOfbeeZhVjGBwNXhVTFqxgtb0wbgzvh996PCzMDLsT36nA+J6xtW+zgZZb3vshSCoHv3BrwiludhiV8="));
-
+*/
+        String password = Sm4Util.encryptECB(HexUtil.hexToByte(Sm4Util.sm4key),"123456");
+        System.out.println("Sm4Util password==" + password);
     }
 
 

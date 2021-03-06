@@ -12,9 +12,10 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * <p>
  * 用户表 Mapper 接口
- * </p>
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
  *
  */
 @Repository

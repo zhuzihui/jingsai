@@ -6,8 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @Classname UserDTO
- * @Description 用户Dto
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: 用户Dto
  */
 @Data
 public class UserDTO implements Serializable {

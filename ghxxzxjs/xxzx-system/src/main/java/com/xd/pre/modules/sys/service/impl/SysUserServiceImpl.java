@@ -35,9 +35,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * <p>
  * 用户表 服务实现类
- * </p>
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
  *
  */
 @Service
@@ -72,7 +73,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         // 默认密码 123456
-        sysUser.setPassword(PreUtil.encode("123456"));
+        sysUser.setPassword(PreUtil.sm4EncryptECB("123456"));
         baseMapper.insertUser(sysUser);
         List<SysUserRole> userRoles = userDto.getRoleList().stream().map(item -> {
             SysUserRole sysUserRole = new SysUserRole();

@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xd.pre.common.exception.ValidateCodeException;
-import com.xd.pre.modules.security.code.sms.SmsCodeService;
+import com.xd.pre.modules.encryption.Sm4Util;
 import com.xd.pre.modules.security.social.PreConnectionData;
 import com.xd.pre.modules.security.social.SocialRedisHelper;
 import com.xd.pre.modules.security.social.SocialUserInfo;
@@ -25,21 +25,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
- * @Classname IndexController
- * @Description 主页模块
+ * 主页模块
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
+ *
  */
 @RestController
 public class IndexController {
 
     @Autowired
     private ISysUserService userService;
-
-
-    @Autowired
-    private SmsCodeService smsCodeService;
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;

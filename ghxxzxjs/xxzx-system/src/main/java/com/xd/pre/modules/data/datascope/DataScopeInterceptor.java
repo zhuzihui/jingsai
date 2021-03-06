@@ -30,8 +30,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @Classname DataScopeInterceptor
- * @Description Mybatis 拦截器 主要用于数据权限拦截
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: Mybatis 拦截器 主要用于数据权限拦截
  */
 @Order(90)
 @Slf4j
