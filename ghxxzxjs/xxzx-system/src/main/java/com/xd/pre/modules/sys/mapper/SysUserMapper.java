@@ -35,4 +35,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     IPage<SysUser> getUserVosPage(Page page, @Param("query") UserDTO userDTO, DataScope dataScope);
 
+    void updateByUseName(SysUser sysUser);
 }

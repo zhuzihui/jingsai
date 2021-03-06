@@ -106,5 +106,7 @@ public class SysUser extends Model<SysUser> {
     @TableField(exist = false)
     private String key;
 
+    private String dept;
+    private String role;
 
 }

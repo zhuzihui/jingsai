@@ -56,4 +56,13 @@
         ORDER BY `user`.create_time DESC
     </select>
 
+    <update id="updateByUseName" parameterType="com.xd.pre.modules.sys.domain.SysUser">
+        update sys_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+        </trim>
+        where username = #{username}
+    </update>
+
 </mapper>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xd.pre.modules.sys.domain.SysUser;
 import com.xd.pre.modules.sys.dto.UserDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -112,4 +113,5 @@ public interface ISysUserService extends IService<SysUser> {
     boolean doPostSignUp(SysUser sysUser);
 
 
+    String readExcelFile(MultipartFile file);
 }

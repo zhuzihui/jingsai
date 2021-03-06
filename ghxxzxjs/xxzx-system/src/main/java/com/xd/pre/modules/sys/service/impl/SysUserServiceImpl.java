@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xd.pre.common.exception.PreBaseException;
 import com.xd.pre.modules.data.datascope.DataScope;
+import com.xd.pre.modules.sys.controller.SysDeptController;
+import com.xd.pre.modules.sys.domain.SysDept;
+import com.xd.pre.modules.sys.util.SysUserExcelUtil;
 import com.xd.pre.security.PreSecurityUser;
 import com.xd.pre.modules.security.social.SocialRedisHelper;
 import com.xd.pre.modules.security.util.JwtUtil;
@@ -29,6 +32,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -56,6 +60,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     RedisTemplate redisTemplate;
     @Autowired
     private SocialRedisHelper socialRedisHelper;
+    @Autowired
+    private static SysDeptServiceImpl sysDeptService;
 
     @Override
     public IPage<SysUser> getUsersWithRolePage(Page page, UserDTO userDTO) {
@@ -229,4 +235,48 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .eq(SysUser::getUserId, userIdOrUserNameOrPhone);
         return baseMapper.selectOne(select);
     }
+
+    /**
+     * 文件导入
+     * @param file
+     * @return
+     */
+    @Override
+    public String readExcelFile(MultipartFile file) {
+        String result = "";
+        SysUserExcelUtil excelUtil = new SysUserExcelUtil();
+        List<UserDTO> ilist = excelUtil.getExcelInfo(file);
+        if (ilist != null && !ilist.isEmpty()){
+            // 不为空  加入数据库
+            for (UserDTO userDTO:ilist){
+                SysUser sysUser = new SysUser();
+                BeanUtils.copyProperties(userDTO, sysUser);
+                // 查询用户名是否存在
+                SysUser byUserInfoName = findSecurityUser(sysUser.getUsername());
+//                decideDept(sysUser);
+                if (ObjectUtil.isNull(byUserInfoName)) {
+                    // 默认密码 123456
+                    sysUser.setPassword(PreUtil.sm4EncryptECB("xxzx@#123"));
+                    sysUser.setLockFlag("0");
+                    baseMapper.insertUser(sysUser);
+                }else {
+                    BeanUtils.copyProperties(userDTO, sysUser);
+                    baseMapper.updateByUseName(sysUser);
+                }
+            }
+            result = "上传成功";
+        }else {
+            result = "上传失败";
+        }
+        return result;
+    }
+//    // 判断部门是否存在  不存在则新增部门
+//    public static void decideDept(SysUser sysUser){
+//        // 获取所有部门信息
+//        List<SysDept> sysDepts = sysDeptService.selectDeptList();
+//        if (sysDepts.stream().anyMatch(w->w.getName().equals(sysUser.getDept()))){
+//            sysDepts.forEach(SysDept::getDeptId);
+//        }
+//
+//    }
 }

@@ -29,4 +29,8 @@ public class UserDTO implements Serializable {
      */
     private String newPassword;
     private String smsCode;
+    // 部门名称
+    private String dept;
+    // 权限名称
+    private String role;
 }
