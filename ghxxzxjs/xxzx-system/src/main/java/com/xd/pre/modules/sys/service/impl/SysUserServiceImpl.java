@@ -37,6 +37,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 用户表 服务实现类
@@ -283,11 +284,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 BeanUtils.copyProperties(userDTO, sysUser);
                 // 查询用户名是否存在
                 SysUser byUserInfoName = findSecurityUser(sysUser.getUsername());
-//                decideDept(sysUser);
                 if (ObjectUtil.isNull(byUserInfoName)) {
                     // 默认密码 123456
                     sysUser.setPassword(PreUtil.sm4EncryptECB("xxzx@#123"));
-                    sysUser.setLockFlag("0");
+                    sysUser.setLockFlag("0");  // 默认账号正常
+                    List<SysDept> sysDepts = sysDeptService.selectDeptList();
+                    // 如果存在该部门与该部门关联
+                    if (sysDepts.stream().anyMatch(w->w.getName().equals(sysUser.getDept()))){
+                        SysDept sysDeptStream = (SysDept) sysDepts.stream().filter(d -> d.getName().equals(sysUser.getDept()));
+                        sysUser.setDeptId(sysDeptStream.getDeptId());
+                    }else {
+                        // 此处需要新建一个部门
+                    }
                     baseMapper.insertUser(sysUser);
                 }else {
                     BeanUtils.copyProperties(userDTO, sysUser);

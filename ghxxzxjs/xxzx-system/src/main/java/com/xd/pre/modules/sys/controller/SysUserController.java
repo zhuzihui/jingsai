@@ -170,7 +170,7 @@ public class SysUserController {
 
     /**
      * 修改密码
-     *
+     * @Author zhb
      * @return
      */
     @SysOperaLog(descrption = "修改邮箱")
