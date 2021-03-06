@@ -70,6 +70,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean insertUser(UserDTO userDto) {
+
+        SysUser oldUser = findByUserInfoName(userDto.getUsername());
+        if (ObjectUtil.isNotNull(oldUser)) {
+            throw new PreBaseException("用户名已被添加");
+        }
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         // 默认密码 xxzx@#123
