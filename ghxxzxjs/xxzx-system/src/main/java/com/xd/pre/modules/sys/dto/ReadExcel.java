@@ -5,9 +5,7 @@ import lombok.Data;
 /**
  * @ClassName ReadExcel
  * @Description 用于存放excel的相关信息
- * @Author MSI
- * @Date 2020/7/10 15:51
- * @Version 1.0
+ * @Author zhb
  **/
 @Data
 public class ReadExcel {
