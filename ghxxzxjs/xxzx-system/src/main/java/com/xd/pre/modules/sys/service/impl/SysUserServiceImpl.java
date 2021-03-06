@@ -83,6 +83,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     return s.getDeptId();
                 }).collect(Collectors.toList());
                 userDTO.setDeptList(collect);
+                userDTO.setDeptId(null);
             }else {
                 userDTO.setDeptId(userDTO.getDeptId());
             }

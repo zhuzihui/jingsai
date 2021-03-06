@@ -44,6 +44,9 @@
             <if test="query.username != null and query.username != ''">
                 and `user`.username LIKE CONCAT('%',#{query.username},'%')
             </if>
+            <if test="query.deptId != null and query.deptId != ''">
+                and `user`.dept_id =#{query.deptId}
+            </if>
             <if test="query.deptList != null and query.deptList.size() > 0">
                 and `user`.dept_id in
                 <foreach item="item" collection="query.deptList" separator="," open="(" close=")" index="">
