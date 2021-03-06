@@ -254,7 +254,7 @@ public class PreUtil {
         encryptor.setPassword("EbfYkitulv73I2p0mXI50JMXoaxZTKJ1");
         System.out.println(encryptor.decrypt("upnvZ1wV5hzuS7Y8UixYJv1tsxNMUHgfnPCIY6Rh3liDh729Ro11+aCDJzI4mILg6eygkozi/NBWXIxhaAE20mS6Bi231/zR+dR66MqfCrJTKFBTLl+MRxt5BPwa6Y0rDzyeP1YOaCLc7FmZsq5uH+mkbH/xiOfbeeZhVjGBwNXhVTFqxgtb0wbgzvh996PCzMDLsT36nA+J6xtW+zgZZb3vshSCoHv3BrwiludhiV8="));
 */
-        String password = Sm4Util.encryptECB(HexUtil.hexToByte(Sm4Util.sm4key),"123456");
+        String password = Sm4Util.encryptECB(HexUtil.hexToByte(Sm4Util.sm4key),"xxzx@#123");
         System.out.println("Sm4Util password==" + password);
     }
 

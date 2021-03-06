@@ -72,8 +72,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean insertUser(UserDTO userDto) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
-        // 默认密码 123456
-        sysUser.setPassword(PreUtil.sm4EncryptECB("123456"));
+        // 默认密码 xxzx@#123
+        sysUser.setPassword(PreUtil.sm4EncryptECB("xxzx@#123"));
         baseMapper.insertUser(sysUser);
         List<SysUserRole> userRoles = userDto.getRoleList().stream().map(item -> {
             SysUserRole sysUserRole = new SysUserRole();
@@ -112,7 +112,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean restPass(Integer userId) {
         SysUser sysUser = new SysUser();
-        sysUser.setPassword(PreUtil.sm4EncryptECB("123456"));
+        sysUser.setPassword(PreUtil.sm4EncryptECB("xxzx@#123"));
         sysUser.setUserId(userId);
         return baseMapper.updateById(sysUser) > 0;
     }
