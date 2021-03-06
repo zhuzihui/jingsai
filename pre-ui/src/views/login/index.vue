@@ -8,7 +8,7 @@
     <div class="login-right">
       <div class="title-container">
         <h3 class="title">
-          PRE 权限后台系统登录
+          XXXX系统登录
         </h3>
       </div>
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -85,7 +85,7 @@
             </el-button>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane name="phoneForm" label="手机号登录">
+        <!-- <el-tab-pane name="phoneForm" label="手机号登录">
           <span slot="label"><i slot="prefix" class=""><svg-icon icon-class="phone" /></i> 手机号登录</span>
           <el-form
             ref="phoneForm"
@@ -133,10 +133,10 @@
             >登录
             </el-button>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
 
-      <div class="other-login">
+      <div class="other-login" v-if="false">
         <div class="other-way">
           <span>其他方式登录:</span>
           <span class="other-icon" @click="handleSocial('github')">
@@ -290,7 +290,7 @@ export default {
   },
   created() {
     this.refreshCaptcha()
-    this.socialLogin()
+    // this.socialLogin()
   },
   mounted() {
     // 自动加载indexs方法
@@ -306,6 +306,17 @@ export default {
     },
     // 用户名 密码登录
     handleLogin() {
+      // sm3 密码加密
+      // const sm3 = require('sm-crypto').sm3
+      // const hashData = sm3('123456')
+      // console.log(hashData,'sss')
+
+      // sm4加密
+      const sm4 = require('sm-crypto').sm4
+      const key = '636f6d2e686e75702e6f736d702e7373' // 可以为 16 进制串或字节数组，要求为 128 比特
+      // let encryptData = sm4.encrypt(msg, key) // 加密，默认输出 16 进制字符串，默认使用 pkcs#5 填充
+      this.loginForm.password = sm4.encrypt((this.loginForm.password), key)
+
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
@@ -427,10 +438,11 @@ export default {
     align-items: center;
     height: 100%;
     /*background-image: url(https://img2018.cnblogs.com/blog/1211637/201908/1211637-20190809112720089-1507550740.png);*/
-    background-image: url('../../assets/63048029b07252112f0033e8e3c52865.jpg');
+    // background-image: url('../../assets/63048029b07252112f0033e8e3c52865.jpg');
+    // background-image: url('../../assets/test2.jpg');
     /*background: red;*/
-    background-size: cover;
-
+    background-size: 100% 100%;
+    background: #242f41;
     .login-right {
       width: 30%;
       padding: 50px;
