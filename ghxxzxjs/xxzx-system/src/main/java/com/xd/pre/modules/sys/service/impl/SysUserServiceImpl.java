@@ -111,7 +111,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public boolean restPass(Integer userId) {
-        return baseMapper.updateById(new SysUser().setPassword("123456").setUserId(userId)) > 0;
+        SysUser sysUser = new SysUser();
+        sysUser.setPassword(PreUtil.sm4EncryptECB("123456"));
+        sysUser.setUserId(userId);
+        return baseMapper.updateById(sysUser) > 0;
     }
 
     @Override

@@ -180,8 +180,9 @@ public class PreUtil {
      * @return
      */
     public String encode(String rawPass) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(rawPass);
+       /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(rawPass);*/
+        return  rawPass;
     }
 
 
@@ -193,8 +194,7 @@ public class PreUtil {
      * @return
      */
     public boolean validatePass(String newPass, String passwordEncoderOldPass) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.matches(newPass, passwordEncoderOldPass);
+        return newPass.equals(passwordEncoderOldPass);
     }
 
 

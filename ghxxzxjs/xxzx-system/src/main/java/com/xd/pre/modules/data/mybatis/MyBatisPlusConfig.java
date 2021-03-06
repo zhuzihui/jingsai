@@ -3,11 +3,8 @@ package com.xd.pre.modules.data.mybatis;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import com.xd.pre.modules.data.datascope.DataScopeInterceptor;
-import com.xd.pre.modules.data.tenant.PreTenantHandler;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +26,6 @@ import java.util.List;
 @MapperScan({"com.xd.pre.**.mapper"})
 public class MyBatisPlusConfig {
 
-    @Autowired
-    private PreTenantHandler preTenantHandler;
-
     /**
      * 分页插件
      */
@@ -41,10 +35,6 @@ public class MyBatisPlusConfig {
         List<ISqlParser> sqlParserList = new ArrayList<>();
         // 攻击 SQL 阻断解析器、加入解析链
         sqlParserList.add(new BlockAttackSqlParser());
-        // 多租户拦截
-        TenantSqlParser tenantSqlParser = new TenantSqlParser();
-        tenantSqlParser.setTenantHandler(preTenantHandler);
-        sqlParserList.add(tenantSqlParser);
         paginationInterceptor.setSqlParserList(sqlParserList);
         return paginationInterceptor;
     }

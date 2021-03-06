@@ -6,6 +6,7 @@ import com.xd.pre.modules.security.filter.PreJwtAuthenticationTokenFilter;
 import com.xd.pre.modules.security.handle.PreAccessDeineHandler;
 import com.xd.pre.modules.security.handle.PreAuthenticationEntryPointImpl;
 import com.xd.pre.modules.security.handle.PreAuthenticationFailureHandler;
+import com.xd.pre.modules.security.util.CustomPasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -113,7 +114,7 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new CustomPasswordEncoder());
     }
 }
 
