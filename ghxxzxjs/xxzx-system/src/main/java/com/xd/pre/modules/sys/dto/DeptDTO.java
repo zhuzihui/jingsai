@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @Classname UserDTO
- * @Description 部门Dto
+ * @author QCH
+ * @version 1.0
+ * @description 部门Dto
+ * @date 2021/3/5
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

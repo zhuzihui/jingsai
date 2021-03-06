@@ -7,8 +7,10 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * @Classname UserDTO
- * @Description 角色Dto
+ * @author QCH
+ * @version 1.0
+ * @description 角色Dto
+ * @date 2021/3/5
  */
 @Setter
 @Getter

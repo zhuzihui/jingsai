@@ -10,30 +10,30 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xd.pre.common.exception.PreBaseException;
 import com.xd.pre.modules.data.datascope.DataScope;
-import com.xd.pre.modules.sys.controller.SysDeptController;
-import com.xd.pre.modules.sys.domain.SysDept;
-import com.xd.pre.modules.sys.util.SysUserExcelUtil;
-import com.xd.pre.security.PreSecurityUser;
 import com.xd.pre.modules.security.social.SocialRedisHelper;
 import com.xd.pre.modules.security.util.JwtUtil;
-import com.xd.pre.modules.sys.domain.SysUser;
-import com.xd.pre.modules.sys.domain.SysUserRole;
+import com.xd.pre.modules.sys.domain.*;
 import com.xd.pre.modules.sys.dto.UserDTO;
 import com.xd.pre.modules.sys.mapper.SysUserMapper;
 import com.xd.pre.modules.sys.service.*;
 import com.xd.pre.modules.sys.util.PreUtil;
+import com.xd.pre.modules.sys.util.SysUserExcelUtil;
+import com.xd.pre.security.PreSecurityUser;
+import com.xd.pre.security.util.SecurityUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,6 +53,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private ISysDeptService deptService;
     @Autowired
+    private ISysRoleDeptService roleDeptService;
+    @Autowired
     private ISysMenuService menuService;
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -62,12 +64,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SocialRedisHelper socialRedisHelper;
     @Autowired
     private static SysDeptServiceImpl sysDeptService;
+    @Resource
+    private ISysRoleService roleService;
 
     @Override
     public IPage<SysUser> getUsersWithRolePage(Page page, UserDTO userDTO) {
-
+        PreSecurityUser user = SecurityUtil.getUser();
+        List<SysRole> rolesByUserId = roleService.findRolesByUserId(user.getUserId());
+        SysRole sysRole = rolesByUserId.get(0);
+        if ("0".equals(sysRole.getAreAdmin())){
+            //普通用户，只返回他自己的信息
+            userDTO.setUsername(user.getUsername());
+        }
         if ( ObjectUtils.anyNotNull(userDTO) && userDTO.getDeptId() != null) {
-            userDTO.setDeptList(deptService.selectDeptIds(userDTO.getDeptId()));
+            List<SysDept> sysDepts = deptService.selectByParentId(userDTO.getDeptId());
+            if (sysDepts != null && sysDepts.size() > 0){
+                List<Integer> collect = sysDepts.parallelStream().map(s -> {
+                    return s.getDeptId();
+                }).collect(Collectors.toList());
+                userDTO.setDeptList(collect);
+            }else {
+                userDTO.setDeptId(userDTO.getDeptId());
+            }
+//            userDTO.setDeptList(deptService.selectDeptIds(userDTO.getDeptId()));
+        }else {
+            //为空则查该角色下的所有部门
+            List<SysRoleDept> roleDeptIds = roleDeptService.getRoleDeptIds(sysRole.getRoleId());
+            if (roleDeptIds != null && roleDeptIds.size() > 0){
+                List<Integer> deptIds = roleDeptIds.parallelStream().map(r -> {
+                    return r.getDeptId();
+                }).collect(Collectors.toList());
+                userDTO.setDeptList(deptIds);
+            }
         }
         return baseMapper.getUserVosPage(page, userDTO, new DataScope());
     }

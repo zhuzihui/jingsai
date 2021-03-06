@@ -11,9 +11,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 部门管理 前端控制器
- * </p>
+ * @author QCH
+ * @version 1.0
+ * @description 部门管理 前端控制器
+ * @date 2021/3/5
  */
 @RestController
 @RequestMapping("/dept")

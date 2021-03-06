@@ -9,10 +9,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * <p>
- * 部门管理 服务类
- * </p>
- *
+ * @author QCH
+ * @version 1.0
+ * @description 部门管理
+ * @date 2021/3/5
  */
 public interface ISysDeptService extends IService<SysDept> {
 
@@ -64,5 +64,6 @@ public interface ISysDeptService extends IService<SysDept> {
      */
     List<DeptTreeVo> getDeptTree();
 
+    List<SysDept> selectByParentId(int pid);
 
 }

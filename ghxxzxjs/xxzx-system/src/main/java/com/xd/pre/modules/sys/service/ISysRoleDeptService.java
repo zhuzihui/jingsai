@@ -6,10 +6,10 @@ import com.xd.pre.modules.sys.domain.SysRoleDept;
 import java.util.List;
 
 /**
- * <p>
- * 角色与部门对应关系 服务类
- * </p>
- *
+ * @author QCH
+ * @version 1.0
+ * @description 角色与部门对应关系 服务类
+ * @date 2021/3/5
  */
 public interface ISysRoleDeptService extends IService<SysRoleDept> {
 
