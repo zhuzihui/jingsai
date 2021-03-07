@@ -76,7 +76,7 @@ public class SysRole extends Model<SysRole> {
     /**
      * 0:普通用户，1:管理人员
      */
-    private String areAdmin;
+    private int areAdmin;
 
     /**
      * 非数据库字段

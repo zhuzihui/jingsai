@@ -23,6 +23,7 @@ public class RoleDTO {
     private String roleDesc;
     private String delFlag;
     private int dsType;
+    private int areAdmin;
     List<SysRoleMenu> roleMenus;
     List<Integer> roleDepts;
 
