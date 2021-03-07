@@ -1,6 +1,7 @@
 package com.xd.pre.modules.sys.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xd.pre.modules.sys.domain.SysDept;
@@ -165,6 +166,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                 addDeptIdList(deptIdList, d);
             }
         }
+    }
+
+    public List<SysDept> selectAllDept() {
+        List<SysDept> depts = baseMapper.selectAllDept();
+        return depts;
     }
 
 
