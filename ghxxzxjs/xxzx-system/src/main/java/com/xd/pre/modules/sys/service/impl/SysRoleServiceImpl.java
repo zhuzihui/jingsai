@@ -50,13 +50,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(roleDto, sysRole);
         // 根据数据权限范围查询部门ids
-        List<Integer> ids = dataScopeContext.getDeptIdsForDataScope(roleDto, roleDto.getDsType());
-
-        StringJoiner dsScope = new StringJoiner(",");
-        ids.forEach(integer -> {
-            dsScope.add(Integer.toString(integer));
-        });
-        sysRole.setDsScope(dsScope.toString());
+//        List<Integer> ids = dataScopeContext.getDeptIdsForDataScope(roleDto, roleDto.getDsType());
+            List<Integer> depts = roleDto.getRoleDepts();
+////        StringJoiner dsScope = new StringJoiner(",");
+//        ids.forEach(integer -> {
+//            dsScope.add(Integer.toString(integer));
+//        });
+//        sysRole.setDsScope(dsScope.toString());
         baseMapper.insertRole(sysRole);
         Integer roleId = sysRole.getRoleId();
         //维护角色菜单
@@ -72,8 +72,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         // 维护角色部门权限
         // 根据数据权限范围查询部门ids
-        if (CollectionUtil.isNotEmpty(ids)) {
-            List<SysRoleDept> roleDepts = ids.stream().map(integer -> {
+        if (CollectionUtil.isNotEmpty(depts)) {
+            List<SysRoleDept> roleDepts = depts.stream().map(integer -> {
                 SysRoleDept sysRoleDept = new SysRoleDept();
                 sysRoleDept.setDeptId(integer);
                 sysRoleDept.setRoleId(roleId);
