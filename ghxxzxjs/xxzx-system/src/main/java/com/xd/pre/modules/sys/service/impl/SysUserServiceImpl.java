@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 用户表 服务实现类
@@ -165,6 +164,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .select(SysUser::getUserId, SysUser::getUsername, SysUser::getPhone, SysUser::getEmail, SysUser::getPassword, SysUser::getDeptId, SysUser::getJobId, SysUser::getAvatar)
                 .eq(SysUser::getUsername, username));
         // 获取部门
+        if (sysUser == null){
+            return null;
+        }
         sysUser.setDeptName(deptService.selectDeptNameByDeptId(sysUser.getDeptId()));
         // 获取岗位
 //        sysUser.setJobName(jobService.selectJobNameByJobId(sysUser.getJobId()));
