@@ -346,7 +346,8 @@ export default {
         // 数据权限类型
         dsType: '',
         deptName: '',
-        deptId: 1
+        deptId: 1,
+        areAdmin: 0
       }
       this.isEditForm = false
     },
@@ -408,7 +409,7 @@ export default {
         })
     },
     submitForm: function() {
-      return false
+      // return false
       if (this.form.dsType === 4 && this.deptIds.length === 0) {
         this.$message({
           message: '自定义数据权限不能为空',

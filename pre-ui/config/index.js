@@ -20,7 +20,8 @@ module.exports = {
     },
 
     // 本地开发使用
-    host: 'localhost',
+    // host: 'localhost',
+    host: '10.14.3.72',
     port: 9527,
     autoOpenBrowser: true,
     errorOverlay: true,

@@ -183,7 +183,7 @@
 </template>
 
 <script>
-import { addUser, getUserList, editUser, deleteUser, restPass, registerUser } from '@/api/user'
+import { addUser, getUserList, editUser, deleteUser, restPass, registerUser , importUser } from '@/api/user'
 import { getRoleList } from '@/api/roles'
 import { getDept } from '@/api/dept'
 import PopupTreeInput from '@/components/PopupTreeInput'
@@ -407,9 +407,15 @@ export default {
       form.append('file', file)  // 文件流
       // form.append('jsydType', this.subParams.keyTypeCode) // 相关参数直接append
       // form.append('fwxMisCode', this.subParams.keyDigNumGather)
-      const url = '/pre/user/upload'
-      axios.post(url, form).then((res) => {
-        //
+      const url = '/user/upload'
+      // axios.post(url, form).then((res) => {
+      //   //
+      // })
+      importUser(form).then((res)=>{
+        if(res.data.code == 200){
+          this.$message.success('导入成功')
+          this.adminList()
+        }
       })
     },
     // 上传成功
