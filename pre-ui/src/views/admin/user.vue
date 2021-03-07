@@ -38,6 +38,25 @@
           </el-button>
           <el-button class="filter-item" type="primary" size="small" icon="el-icon-plus" @click="handleAdd">添加
           </el-button>
+          <!-- <el-button class="filter-item" type="primary" size="small" icon="el-icon-upload" @click="importUser">批量导入
+          </el-button> -->
+          <el-upload
+            style="display: inline-block;"
+            class="cus-upload"
+            action=""
+            ref="upload"
+            multiple
+            accept=".xlsx"
+            :on-exceed="handleExceed"
+            :show-file-list="false"
+            :http-request="httprequest"
+            :on-success="handleSuccess"
+            :before-upload="beforeUpload"
+          >
+            <slot name="content">
+              <el-button type="primary" size="small" icon="el-icon-upload2">批量导入</el-button>
+            </slot>
+          </el-upload>
         </div>
 
         <el-table v-loading="loading" :data="tableData" border style="width: 100%">
@@ -169,6 +188,7 @@ import { getRoleList } from '@/api/roles'
 import { getDept } from '@/api/dept'
 import PopupTreeInput from '@/components/PopupTreeInput'
 import initDict from '@/mixins/initDict'
+import axios from 'axios'
 
 export default {
   components: {
@@ -380,6 +400,36 @@ export default {
       this.currentPage = val
       this.adminList()
     },
+    // 批量导入
+    httprequest(params) {
+      const file = params.file
+      const form = new FormData()
+      form.append('file', file)  // 文件流
+      // form.append('jsydType', this.subParams.keyTypeCode) // 相关参数直接append
+      // form.append('fwxMisCode', this.subParams.keyDigNumGather)
+      const url = '/pre/user/upload'
+      axios.post(url, form).then((res) => {
+        //
+      })
+    },
+    // 上传成功
+    handleSuccess(res, file) {
+      console.log(res,'sdfsdf')
+    },
+    beforeUpload(file) {
+      let flag = true
+      const str = file.name.substring(file.name.lastIndexOf('.') + 1)
+      if (str !== 'xlsx') {
+        flag = false
+        this.$message.warning(`请上传.xlsx文件！`)
+      }
+      return flag
+    },
+    // on-exceed 文件超出个数限制时的钩子
+    handleExceed() {
+      this.$message.warning(`当前限制选择1个文件`)
+    },
+
 
     handleNodeClick(data) {
       this.deptId = data.deptId === '' ? '' : data.deptId

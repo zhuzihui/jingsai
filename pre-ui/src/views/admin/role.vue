@@ -85,7 +85,7 @@
           <el-input v-model="form.roleDesc" auto-complete="off" placeholder="请输入角色介绍" />
         </el-form-item>
 
-        <el-form-item label="数据范围" :label-width="formLabelWidth">
+        <!-- <el-form-item label="数据范围" :label-width="formLabelWidth">
           <el-select v-model="form.dsType" placeholder="请选择数据范围" style="width: 100%" @change="changeScope">
             <el-option
               v-for="item in dateScopes"
@@ -94,6 +94,19 @@
               :value="item.id"
             />
           </el-select>
+        </el-form-item> -->
+        <el-form-item label="部门" :label-width="formLabelWidth">
+          <el-tree
+            ref="DeptmentTree"
+            :data="deptDataSource"
+            show-checkbox
+            node-key="deptId"
+            @check-change="checkChange"
+            :default-expanded-keys="form.roleDepts"
+            :default-checked-keys="form.roleDepts"
+            :check-strictly="true"
+            :props="deptTreeProps">
+          </el-tree>
         </el-form-item>
 
         <el-form-item v-if="form.dsType === 4" label="数据权限" :label-width="formLabelWidth">
@@ -118,6 +131,12 @@
             <el-checkbox v-model="checkAll" :disabled="false" @change="handleCheckAll"><b>全选</b></el-checkbox>
           </div>
         </el-form-item>
+        <el-form-item label="是否为管理员" :label-width="formLabelWidth">
+          <el-radio-group v-model="form.areAdmin">
+            <el-radio :label="1">是</el-radio>
+            <!-- <el-radio :label="2">否</el-radio> -->
+          </el-radio-group>
+        </el-form-item>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -132,6 +151,7 @@
 <script>
 import { getRoleList, addRole, updateRole, deleteRole, findRoleMenus } from '@/api/roles'
 import { getMenus } from '@/api/menu'
+import { getDept } from '@/api/dept'
 import { parseTime } from '@/utils/index'
 import { getDeptTree } from '@/api/dept'
 import Treeselect from '@riophae/vue-treeselect'
@@ -143,6 +163,8 @@ export default {
   },
   data() {
     return {
+      // 编辑弹框新增 部门数据源
+      deptDataSource: [],
       tableData: [],
       keyword: '',
       title: '',
@@ -182,7 +204,9 @@ export default {
         roleMenus: [],
         dsType: 0,
         deptName: '',
-        deptId: 1
+        deptId: 1,
+        roleDepts: [] ,  // 编辑角色弹框 选中部门数据
+        areAdmin: 0
       },
       // 分类菜单列表
       menuData: [],
@@ -207,9 +231,45 @@ export default {
   created() {
     this.findTreeData()
     this.roleList()
+    this.getDeptTreeData()
+  },
+  mounted(){
+
   },
   methods: {
     parseTime,
+    // 加载部门列表
+    getDeptTreeData: function() {
+      getDept().then((res) => {
+        this.deptDataSource = res.data.data
+      })
+    },
+    // 复选框选中事件
+    checkChange(data , isChecked) {
+      // debugger
+      console.log(this.form.roleDepts,'111111')
+      if (isChecked) {
+        this.form.roleDepts.push(data.deptId)
+        // 节点选中时同步选中父节点
+        const parentId = data.parentId
+        this.$refs.DeptmentTree.setChecked(parentId, true, false)
+      } else {
+        // 节点取消选中时同步取消选中子节点
+        if (data.children != null) {
+          data.children.forEach(element => {
+            this.$refs.DeptmentTree.setChecked(element.id, false, false)
+          })
+        }
+        this.form.roleDepts.map((item,i)=>{
+          if(item == data.deptId){
+            this.form.roleDepts.splice(i,1)
+          }
+        })
+      }
+      console.log(this.form.roleDepts,'2222222')
+    },
+
+
     // 获取角色
     roleList: function() {
       this.loading = true
@@ -297,6 +357,7 @@ export default {
       this.isEditForm = true
       this.title = '编辑角色'
       this.form = row
+      console.log(row,'itemmmmmmmmmmmmm')
       this.handleRoleSelectChange(row.roleId)
       this.deptIds = []
       if (this.form.dsType === 4) {
@@ -347,6 +408,7 @@ export default {
         })
     },
     submitForm: function() {
+      return false
       if (this.form.dsType === 4 && this.deptIds.length === 0) {
         this.$message({
           message: '自定义数据权限不能为空',
