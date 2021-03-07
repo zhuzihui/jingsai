@@ -3,6 +3,8 @@ package com.xd.pre.modules.sys.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xd.pre.modules.sys.domain.SysDept;
 
+import java.util.List;
+
 /**
  * @author QCH
  * @version 1.0
@@ -11,4 +13,6 @@ import com.xd.pre.modules.sys.domain.SysDept;
  */
 public interface SysDeptMapper extends BaseMapper<SysDept> {
 
+
+    List<SysDept> selectAllDept();
 }
