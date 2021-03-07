@@ -103,3 +103,12 @@ export function registerUser(data) {
   })
 }
 
+// 批量导入用户信息
+export function importUser(data) {
+  return request({
+    url: '/user/upload',
+    method: 'post',
+    data: data
+  })
+}
+

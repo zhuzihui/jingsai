@@ -8,7 +8,7 @@
     <div class="login-right">
       <div class="title-container">
         <h3 class="title">
-          XXXX系统登录
+          人员管理系统登录
         </h3>
       </div>
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -312,10 +312,10 @@ export default {
       // console.log(hashData,'sss')
 
       // sm4加密
-      const sm4 = require('sm-crypto').sm4
-      const key = '636f6d2e686e75702e6f736d702e7373' // 可以为 16 进制串或字节数组，要求为 128 比特
+      // const sm4 = require('sm-crypto').sm4
+      // const key = '636f6d2e686e75702e6f736d702e7373' // 可以为 16 进制串或字节数组，要求为 128 比特
       // let encryptData = sm4.encrypt(msg, key) // 加密，默认输出 16 进制字符串，默认使用 pkcs#5 填充
-      this.loginForm.password = sm4.encrypt((this.loginForm.password), key)
+      // this.loginForm.password = sm4.encrypt((this.loginForm.password), key)
 
       this.$refs.loginForm.validate(valid => {
         if (valid) {

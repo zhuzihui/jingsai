@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: 'XXXX管理系统',
+      title: '人员管理系统',
       logo: ""
       // logo: 'https://gitee.com/li_haodong/picture_management/raw/master/pic/WechatIMG9.png'
     }
