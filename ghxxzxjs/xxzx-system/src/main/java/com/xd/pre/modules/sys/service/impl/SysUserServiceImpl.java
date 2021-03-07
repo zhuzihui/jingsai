@@ -291,6 +291,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     // 默认密码 123456
                     sysUser.setPassword(PreUtil.sm4EncryptECB("xxzx@#123"));
                     sysUser.setLockFlag("0");  // 默认账号正常
+                    sysUser.setDelFlag("0");
                     List<SysDept> sysDepts = sysDeptService.selectAllDept();
                     // 如果存在该部门与该部门关联
                     if (sysDepts.stream().anyMatch(w->w.getName().equals(sysUser.getDept()))){
@@ -302,6 +303,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                         // 不存在此处需要新建一个部门
                     }
                     baseMapper.insertUser(sysUser);
+                    userRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, sysUser.getUserId()));
+                    SysUserRole sysUserRole = new SysUserRole();
+                    switch (sysUser.getRole()) {
+                        case "一般用户":
+                            sysUserRole.setRoleId(8);
+                            break;
+                        case "部门管理员":
+                            sysUserRole.setRoleId(7);
+                            break;
+                        case "超级管理员":
+                            sysUserRole.setRoleId(5);
+                            break;
+                    }
+                    sysUserRole.setUserId(sysUser.getUserId());
+                    userRoleService.save(sysUserRole);
                 }else {
                     BeanUtils.copyProperties(userDTO, sysUser);
                     baseMapper.updateByUseName(sysUser);
