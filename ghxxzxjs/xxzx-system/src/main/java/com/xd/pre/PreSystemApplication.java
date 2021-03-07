@@ -4,7 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 系统入口
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: 系统入口
  */
 @SpringBootApplication
 public class PreSystemApplication {

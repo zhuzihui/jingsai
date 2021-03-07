@@ -6,8 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @Classname UserDTO
- * @Description 用户Dto
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: 用户Dto
  */
 @Data
 public class UserDTO implements Serializable {
@@ -28,4 +29,8 @@ public class UserDTO implements Serializable {
      */
     private String newPassword;
     private String smsCode;
+    // 部门名称
+    private String dept;
+    // 权限名称
+    private String role;
 }

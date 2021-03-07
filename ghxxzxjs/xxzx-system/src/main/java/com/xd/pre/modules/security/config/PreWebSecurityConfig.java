@@ -2,12 +2,11 @@ package com.xd.pre.modules.security.config;
 
 import com.xd.pre.modules.security.UserDetailsServiceImpl;
 import com.xd.pre.modules.security.code.img.ImageCodeFilter;
-import com.xd.pre.modules.security.code.sms.SmsCodeAuthenticationSecurityConfig;
-import com.xd.pre.modules.security.code.sms.SmsCodeFilter;
 import com.xd.pre.modules.security.filter.PreJwtAuthenticationTokenFilter;
 import com.xd.pre.modules.security.handle.PreAccessDeineHandler;
 import com.xd.pre.modules.security.handle.PreAuthenticationEntryPointImpl;
 import com.xd.pre.modules.security.handle.PreAuthenticationFailureHandler;
+import com.xd.pre.modules.security.util.CustomPasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,14 +43,7 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private ImageCodeFilter imageCodeFilter;
 
     @Autowired
-    private SmsCodeFilter smsCodeFilter;
-
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
-    // 注入短信登录的相关配置
-    @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
@@ -81,8 +73,6 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 // 由于使用的是JWT，我们这里不需要csrf
                 .csrf().disable()
-                // 短信登录配置
-                .apply(smsCodeAuthenticationSecurityConfig).and()
                 .apply(springSocialConfigurer).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -119,14 +109,12 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 添加图形证码校验过滤器
                  .addFilterBefore(imageCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 // 添加JWT验证过滤器
-                .addFilterBefore(preJwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                // 添加短信验证码过滤器
-                .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(preJwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new CustomPasswordEncoder());
     }
 }
 

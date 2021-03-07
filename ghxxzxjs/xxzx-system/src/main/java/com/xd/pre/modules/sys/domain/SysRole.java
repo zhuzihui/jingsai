@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * <p>
- * 系统角色表
- * </p>
- *
+ * @author QCH
+ * @version 1.0
+ * @description 系统角色表
+ * @date 2021/3/5
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -72,6 +72,11 @@ public class SysRole extends Model<SysRole> {
      * 删除标识（0-正常,1-删除）
      */
     private String delFlag;
+
+    /**
+     * 0:普通用户，1:管理人员
+     */
+    private String areAdmin;
 
     /**
      * 非数据库字段

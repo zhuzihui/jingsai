@@ -9,10 +9,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * <p>
- * 系统角色表 服务类
- * </p>
- *
+ * @author QCH
+ * @version 1.0
+ * @description 系统角色表
+ * @date 2021/3/5
  */
 public interface ISysRoleService extends IService<SysRole> {
 

@@ -20,8 +20,9 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * @Classname UserDetailsServiceImpl
- * @Description 用户身份验证
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: 用户身份验证
  */
 @Slf4j
 @Service

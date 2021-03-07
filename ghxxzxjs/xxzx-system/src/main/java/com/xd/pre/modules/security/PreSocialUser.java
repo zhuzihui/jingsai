@@ -9,8 +9,9 @@ import org.springframework.social.security.SocialUserDetails;
 import java.util.Collection;
 
 /**
- * @Classname PreSocialUser
- * @Description 用户社交登录 身份权限认证类 登陆身份认证
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description: 用户社交登录 身份权限认证类 登陆身份认证
  */
 @Setter
 @Getter

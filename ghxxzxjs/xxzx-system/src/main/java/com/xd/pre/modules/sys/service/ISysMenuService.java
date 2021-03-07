@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * <p>
  * 菜单权限表 服务类
- * </p>
+ * @Author zhb
  *
  */
 public interface ISysMenuService extends IService<SysMenu> {

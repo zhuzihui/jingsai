@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * <p>
- * 用户表
- * </p>
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:用户表
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -106,5 +106,7 @@ public class SysUser extends Model<SysUser> {
     @TableField(exist = false)
     private String key;
 
+    private String dept;
+    private String role;
 
 }

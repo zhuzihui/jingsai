@@ -5,8 +5,6 @@ import com.wf.captcha.ArithmeticCaptcha;
 import com.xd.pre.common.constant.PreConstant;
 import com.xd.pre.common.exception.ValidateCodeException;
 import com.xd.pre.common.utils.R;
-import com.xd.pre.modules.security.code.sms.AliYunSmsUtils;
-import com.xd.pre.modules.security.code.sms.SmsResponse;
 import com.xd.pre.modules.sys.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -53,24 +51,4 @@ public class AuthController {
         map.put("img", captcha.toBase64());
         return R.ok(map);
     }
-
-    /**
-     * 发送短信验证码
-     *
-     * @param phone
-     * @return
-     */
-    @PostMapping("/sendCode/{phone}")
-    public R sendSmsCode(@PathVariable("phone") String phone) {
-        SmsResponse smsResponse = AliYunSmsUtils.sendSms(phone, "prex", "登录");
-
-        if (ObjectUtil.isNull(smsResponse)) {
-            return R.error("短信发送失败");
-        }
-        // 保存到验证码到 redis 有效期两分钟
-        redisTemplate.opsForValue().set(phone, smsResponse.getSmsCode(), 2, TimeUnit.MINUTES);
-        return R.ok();
-    }
-
-
 }

@@ -45,9 +45,12 @@
                 and `user`.username LIKE CONCAT('%',#{query.username},'%')
             </if>
             <if test="query.deptId != null and query.deptId != ''">
+                and `user`.dept_id =#{query.deptId}
+            </if>
+            <if test="query.deptList != null and query.deptList.size() > 0">
                 and `user`.dept_id in
                 <foreach item="item" collection="query.deptList" separator="," open="(" close=")" index="">
-                    #{item, jdbcType=INTEGER}
+                    #{item,jdbcType=INTEGER}
                 </foreach>
             </if>
 
@@ -55,5 +58,14 @@
         </where>
         ORDER BY `user`.create_time DESC
     </select>
+
+    <update id="updateByUseName" parameterType="com.xd.pre.modules.sys.domain.SysUser">
+        update sys_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+        </trim>
+        where username = #{username}
+    </update>
 
 </mapper>

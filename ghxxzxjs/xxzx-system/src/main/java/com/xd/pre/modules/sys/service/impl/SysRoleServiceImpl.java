@@ -27,10 +27,10 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 系统角色表 服务实现类
- * </p>
- *
+ * @author QCH
+ * @version 1.0
+ * @description 系统角色表 服务实现类
+ * @date 2021/3/5
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {

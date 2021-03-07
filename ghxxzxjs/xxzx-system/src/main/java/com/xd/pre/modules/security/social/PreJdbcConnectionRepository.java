@@ -1,6 +1,5 @@
 package com.xd.pre.modules.security.social;
 
-import com.xd.pre.modules.data.tenant.PreTenantContextHolder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -152,11 +151,10 @@ public class PreJdbcConnectionRepository implements ConnectionRepository {
     public void addConnection(Connection<?> connection) {
         try {
             // 获取租户id
-            Long tenantId = PreTenantContextHolder.getCurrentTenantId();
             ConnectionData data = connection.createData();
-            int rank = jdbcTemplate.queryForObject("select coalesce(max(" + RANK + ") + 1, 1) as ranks from " + tablePrefix + "UserConnection where userId = ? and providerId = ? and tenant_id = ?", new Object[]{userId, data.getProviderId(),tenantId}, Integer.class);
+            int rank = jdbcTemplate.queryForObject("select coalesce(max(" + RANK + ") + 1, 1) as ranks from " + tablePrefix + "UserConnection where userId = ? and providerId = ? and tenant_id = ?", new Object[]{userId, data.getProviderId(),""}, Integer.class);
             jdbcTemplate.update("insert into " + tablePrefix + "UserConnection (userId, providerId, providerUserId, `rank`, displayName, profileUrl, imageUrl, accessToken, secret, refreshToken, expireTime,create_time,tenant_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    userId, data.getProviderId(), data.getProviderUserId(), rank, data.getDisplayName(), data.getProfileUrl(), data.getImageUrl(), encrypt(data.getAccessToken()), encrypt(data.getSecret()), encrypt(data.getRefreshToken()), data.getExpireTime(), new Timestamp(System.currentTimeMillis()),tenantId);
+                    userId, data.getProviderId(), data.getProviderUserId(), rank, data.getDisplayName(), data.getProfileUrl(), data.getImageUrl(), encrypt(data.getAccessToken()), encrypt(data.getSecret()), encrypt(data.getRefreshToken()), data.getExpireTime(), new Timestamp(System.currentTimeMillis()),"");
         } catch (DuplicateKeyException e) {
             throw new DuplicateConnectionException(connection.getKey());
         }

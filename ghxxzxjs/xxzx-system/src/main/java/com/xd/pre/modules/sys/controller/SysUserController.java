@@ -17,13 +17,16 @@ import com.xd.pre.modules.sys.util.PreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * <p>
  * 用户表 前端控制器
- * </p>
+ * @auther:zlk
+ * @date:2021-3-5
+ * @description:
  *
  */
 @RestController
@@ -167,7 +170,7 @@ public class SysUserController {
 
     /**
      * 修改密码
-     *
+     * @Author zhb
      * @return
      */
     @SysOperaLog(descrption = "修改邮箱")
@@ -193,7 +196,27 @@ public class SysUserController {
         user.setEmail(mail);
         return R.ok(userService.updateUserInfo(user));
     }
-
+    /**
+     * excel文件数据存储到数据库
+     * 批量导入某部门的相关用户
+     * @param file
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @Author zhb
+     * @return
+     */
+    @PostMapping("/upload")
+    public R uploadExcel(
+            @RequestParam(value = "file") MultipartFile file, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        String result = userService.readExcelFile(file);
+        String retObject = null;
+        if (result.equals("上传成功")){
+            retObject = "SUCCESS";
+        }else {
+            retObject = "FAILURE";
+        }
+        return R.ok(retObject);
+    }
 
 
 }

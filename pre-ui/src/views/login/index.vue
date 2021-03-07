@@ -252,7 +252,7 @@ export default {
       tenantList: [],
       loginForm: {
         username: 'admin',
-        password: '123456',
+        password: 'xxzx@#123',
         code: '',
         token: '',
         key: ''

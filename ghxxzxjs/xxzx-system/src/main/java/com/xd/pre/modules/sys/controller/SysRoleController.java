@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * <p>
- * 系统角色表 前端控制器
- * </p>
+ * @author QCH
+ * @version 1.0
+ * @description 系统角色表
+ * @date 2021/3/5
  */
 @RestController
 @RequestMapping("/role")
