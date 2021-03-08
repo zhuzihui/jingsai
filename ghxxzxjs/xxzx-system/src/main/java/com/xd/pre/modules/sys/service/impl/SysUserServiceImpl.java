@@ -301,6 +301,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                         }
                     }else {
                         // 不存在此处需要新建一个部门
+                        SysDept sysDept = new SysDept();
+                        sysDept.setParentId(0);
+                        sysDept.setName(sysUser.getDept());
+                        sysDept.setSort(0);
+                        deptService.insertDpet(sysDept);
+                        sysUser.setDeptId(sysDept.getDeptId());
                     }
                     baseMapper.insertUser(sysUser);
                     userRoleService.remove(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, sysUser.getUserId()));

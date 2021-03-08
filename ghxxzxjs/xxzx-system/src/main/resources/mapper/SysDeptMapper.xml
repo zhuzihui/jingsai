@@ -16,4 +16,26 @@
     <select id="selectAllDept" resultMap="BaseResultMap">
         select * from sys_dept
     </select>
+
+    <insert id="insertDept" parameterType="com.xd.pre.modules.sys.domain.SysDept" useGeneratedKeys="true" keyProperty="deptId">
+        insert into sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">dept_id,</if>
+            <if test="name != null">name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="parentId != null">parent_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">#{deptId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="parentId != null">#{parentId},</if>
+        </trim>
+    </insert>
 </mapper>

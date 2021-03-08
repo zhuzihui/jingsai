@@ -173,5 +173,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         return depts;
     }
 
+    @Override
+    public int insertDpet(SysDept sysDept) {
+        return baseMapper.insertDept(sysDept);
+    }
 
 }
