@@ -4,14 +4,16 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xd.pre.common.exception.ValidateCodeException;
-import com.xd.pre.modules.encryption.Sm4Util;
+import com.xd.pre.common.utils.R;
 import com.xd.pre.modules.security.social.PreConnectionData;
 import com.xd.pre.modules.security.social.SocialRedisHelper;
 import com.xd.pre.modules.security.social.SocialUserInfo;
+import com.xd.pre.modules.sys.domain.SysRole;
 import com.xd.pre.modules.sys.domain.SysUser;
 import com.xd.pre.modules.sys.dto.UserDTO;
+import com.xd.pre.modules.sys.service.ISysRoleService;
 import com.xd.pre.modules.sys.service.ISysUserService;
-import com.xd.pre.common.utils.R;
+import com.xd.pre.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 主页模块
@@ -44,6 +47,10 @@ public class IndexController {
 
     @Autowired
     private SocialRedisHelper socialRedisHelper;
+
+    @Autowired
+    private ISysRoleService sysRoleService;
+
 
     @Value("${pre.url.address}")
     private String url;
@@ -122,12 +129,24 @@ public class IndexController {
      **/
     @RequestMapping("/info")
     public R info() {
+        SysUser byUserInfoName = userService.findByUserInfoName(SecurityUtil.getUser().getUsername());
+        List<SysRole> rolesByUserId = sysRoleService.findRolesByUserId(byUserInfoName.getUserId());
+        List<Integer> list1 = rolesByUserId.parallelStream().map(r -> {
+            return r.getRoleId();
+        }).collect(Collectors.toList());
         Map<String, Object> map = new HashMap<>();
-        List<String> list = new ArrayList<>();
-        list.add("admin");
-        map.put("roles", list);
+        map.put("roles", list1);
         map.put("avatar", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561394014552&di=17b6c1233048e5276f48309b306c7699&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201804%2F29%2F20180429210111_gtsnf.jpg");
-        map.put("name", "Super Admin");
+        if (rolesByUserId != null && byUserInfoName.getUsername() != null){
+            map.put("name", byUserInfoName.getUsername());
+        }else {
+            map.put("name", null);
+        }
+        if (rolesByUserId != null && rolesByUserId.size() > 0){
+            map.put("areAdmin", rolesByUserId.get(0).getAreAdmin());
+        }else {
+            map.put("areAdmin", null);
+        }
         return R.ok(map);
     }
 
