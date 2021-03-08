@@ -21,7 +21,7 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/">
+          <router-link to="/admin/user">
             <el-dropdown-item>
               首页
             </el-dropdown-item>
@@ -31,9 +31,9 @@
               个人中心
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item>
+          <!-- <el-dropdown-item>
             <span style="display:block;" @click="setting">系统设置</span>
-          </el-dropdown-item>
+          </el-dropdown-item> -->
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">退出登录</span>
           </el-dropdown-item>

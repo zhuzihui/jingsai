@@ -43,19 +43,19 @@ export const constantRoutes = [
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/index/index'),
-        name: 'Dashboard',
-        meta: { title: '主页', icon: 'dashboard', noCache: true, affix: true }
-      }
-    ]
-  },
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/index/index'),
+  //       name: 'Dashboard',
+  //       meta: { title: '主页', icon: 'dashboard', noCache: true, affix: true }
+  //     }
+  //   ]
+  // },
   {
     path: '/user',
     component: Layout,

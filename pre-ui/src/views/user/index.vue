@@ -19,7 +19,7 @@
               </div>
             </div>
           </div>
-          <div class="user-bio">
+          <div class="user-bio" v-if="false">
             <div class="user-education user-bio-section">
               <div class="user-bio-section-header"><el-icon class="el-icon-connection" /><span>第三方账号</span></div>
               <div class="user-bio-section-body">
@@ -39,7 +39,7 @@
       <el-col :xs="24" :sm="12">
         <el-card class="user-center">
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="个人信息" name="first">
+            <el-tab-pane v-if="false" label="个人信息" name="first">
               <div class="user" style="width: 600px">
                 <el-form ref="form" :model="user" label-width="80px">
 
@@ -104,7 +104,7 @@
               </div>
 
             </el-tab-pane>
-            <el-tab-pane label="修改邮箱" name="third">
+            <el-tab-pane v-if="false" label="修改邮箱" name="third">
 
               <div style="width: 500px">
                 <el-form ref="mailForm" :model="mailForm" label-width="100px" class="demo-ruleForm">
@@ -157,15 +157,33 @@ export default {
   components: { PanThumb },
   data() {
     const validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
+      const reg = /^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\@#$%^&*_()-+=<>?:"{}|,.·].*[`~!\\@#$%^&*_()-+=<>?:"{}|,.·]).{8,16}$/
+      // if (value === '') {
+      //   callback(new Error('请输入密码'))
+      // } else {
+      //   if (this.passForm.checkPass !== '') {
+      //     this.$refs.passForm.validateField('checkPass')
+      //   }
+      //   callback()
+      // }
+      if (!value) {
+        callback(new Error('新密码不能为空'))
+      } else if (!reg.test(value)) {
+        callback(new Error('密码应包括数字、字母、特殊符号3类，每类不少于2个，密码长度为8~16位'))
       } else {
-        if (this.passForm.checkPass !== '') {
-          this.$refs.passForm.validateField('checkPass')
-        }
         callback()
       }
     }
+    // checkPwd(rule: any, value: any, callback: any) {
+    //   const reg = /^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\@#$%^&*_()-+=<>?:"{}|,.·].*[`~!\\@#$%^&*_()-+=<>?:"{}|,.·]).{8,16}$/
+    //   if (!value) {
+    //     callback(new Error('新密码不能为空'))
+    //   } else if (!reg.test(value)) {
+    //     callback(new Error('密码应包括数字、字母、特殊符号3类，每类不少于2个，密码长度为8~16位'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     const validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -185,7 +203,7 @@ export default {
         jobName: '',
         createTime: ''
       },
-      activeName: 'first',
+      activeName: 'second',
       passForm: {
         oldPass: '',
         newPass: '',
@@ -245,6 +263,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const params = new URLSearchParams()
+          // sm4加密
+          const sm4 = require('sm-crypto').sm4
+          const key = '636f6d2e686e75702e6f736d702e7373'
+          this.passForm.oldPass = sm4.encrypt((this.passForm.oldPass), key)
+          this.passForm.newPass = sm4.encrypt((this.passForm.newPass), key)
           params.append('oldPass', this.passForm.oldPass)
           params.append('newPass', this.passForm.newPass)
           updatePass(params).then((res) => {
@@ -415,7 +438,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+ .app-container::v-deep{
+   .el-form-item__error{
+      z-index: 99;
+    }
+ }
   .user-center{
     height: 440px;
   }

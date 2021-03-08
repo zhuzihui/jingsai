@@ -1,3 +1,6 @@
+<!--
+ * @Author: 冯智勇
+-->
 <template>
   <div
     v-if="isShow"
@@ -252,7 +255,8 @@ export default {
       tenantList: [],
       loginForm: {
         username: 'admin',
-        password: 'xxzx@#123',
+        password: 'Aa@#12345',
+        // password: '',
         code: '',
         token: '',
         key: ''
@@ -322,7 +326,8 @@ export default {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
+            // this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: '/admin/user' })
           }).catch(() => {
             this.loading = false
             this.refreshCaptcha()

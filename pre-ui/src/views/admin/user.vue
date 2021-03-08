@@ -1,3 +1,6 @@
+<!--
+ * @Author: 冯智勇
+-->
 <template>
   <div class="app-container">
     <el-row :gutter="20">
@@ -38,9 +41,10 @@
           </el-button>
           <el-button class="filter-item" type="primary" size="small" icon="el-icon-plus" @click="handleAdd">添加
           </el-button>
-          <el-button class="filter-item" type="primary" size="small" icon="el-icon-upload" @click="modelDown">批量导入模板下载
+          <el-button class="filter-item" v-if="name == 'admin'" type="primary" size="small" icon="el-icon-upload" @click="modelDown">批量导入模板下载
           </el-button>
           <el-upload
+            v-if="name == 'admin'"
             style="display: inline-block;"
             class="cus-upload"
             action=""
@@ -183,6 +187,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { addUser, getUserList, editUser, deleteUser, restPass, registerUser , importUser } from '@/api/user'
 import { getRoleList } from '@/api/roles'
 import { getDept } from '@/api/dept'
@@ -193,6 +198,14 @@ import user from '@/store/modules/user'
 export default {
   components: {
     PopupTreeInput
+  },
+  computed: {
+    ...mapGetters([
+      'sidebar',
+      'name',
+      'avatar',
+      'device',
+    ])
   },
   mixins: [initDict],
   data() {
