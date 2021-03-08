@@ -307,13 +307,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     SysUserRole sysUserRole = new SysUserRole();
                     switch (sysUser.getRole()) {
                         case "一般用户":
-                            sysUserRole.setRoleId(8);
+                            sysUserRole.setRoleId(3);
                             break;
                         case "部门管理员":
-                            sysUserRole.setRoleId(7);
+                            sysUserRole.setRoleId(2);
                             break;
                         case "超级管理员":
-                            sysUserRole.setRoleId(5);
+                            sysUserRole.setRoleId(1);
                             break;
                     }
                     sysUserRole.setUserId(sysUser.getUserId());
