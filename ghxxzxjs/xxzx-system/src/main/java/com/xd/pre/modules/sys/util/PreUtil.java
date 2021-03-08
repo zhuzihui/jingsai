@@ -1,5 +1,6 @@
 package com.xd.pre.modules.sys.util;
 
+import com.xd.pre.common.exception.PreBaseException;
 import com.xd.pre.modules.encryption.HexUtil;
 import com.xd.pre.modules.encryption.Sm4Util;
 import com.xd.pre.modules.sys.domain.SysDept;
@@ -254,8 +255,26 @@ public class PreUtil {
         encryptor.setPassword("EbfYkitulv73I2p0mXI50JMXoaxZTKJ1");
         System.out.println(encryptor.decrypt("upnvZ1wV5hzuS7Y8UixYJv1tsxNMUHgfnPCIY6Rh3liDh729Ro11+aCDJzI4mILg6eygkozi/NBWXIxhaAE20mS6Bi231/zR+dR66MqfCrJTKFBTLl+MRxt5BPwa6Y0rDzyeP1YOaCLc7FmZsq5uH+mkbH/xiOfbeeZhVjGBwNXhVTFqxgtb0wbgzvh996PCzMDLsT36nA+J6xtW+zgZZb3vshSCoHv3BrwiludhiV8="));
 */
-        String password = Sm4Util.encryptECB(HexUtil.hexToByte(Sm4Util.sm4key),"xxzx@#123");
-        System.out.println("Sm4Util password==" + password);
+        /*String password = Sm4Util.encryptECB(HexUtil.hexToByte(Sm4Util.sm4key),"xxzx@#123");
+        System.out.println("Sm4Util password==" + password);*/
+
+        boolean isMatch1 =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$","123456");
+        System.out.println("123456 is match " + isMatch1);
+
+        boolean isMatch2 =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$","12345678");
+        System.out.println("12345678 is match " + isMatch2);
+
+        boolean isMatch3 =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$","123456@#");
+        System.out.println("123456@# is match " + isMatch3);
+
+        boolean isMatch4 =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$","abcdef@#");
+        System.out.println("abcdef@# is match " + isMatch4);
+
+        boolean isMatch5 =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$","abcd1234");
+        System.out.println("abcd1234 is match " + isMatch5);
+
+        boolean isMatch6 =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$","abcd@#123");
+        System.out.println("abcd@#123 is match " + isMatch6);
     }
 
 
