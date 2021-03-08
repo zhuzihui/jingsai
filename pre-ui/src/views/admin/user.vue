@@ -189,7 +189,7 @@ import { getDept } from '@/api/dept'
 import PopupTreeInput from '@/components/PopupTreeInput'
 import initDict from '@/mixins/initDict'
 import axios from 'axios'
-
+import user from '@/store/modules/user'
 export default {
   components: {
     PopupTreeInput
@@ -259,6 +259,9 @@ export default {
     this.findDeptTree()
     // 加载数据字典
     this.getDict('用户状态')
+  },
+  mounted(){
+    console.log(user.state,'userinfo')
   },
   methods: {
     // 加载用户角色信息
