@@ -72,7 +72,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         // 维护角色部门权限
         // 根据数据权限范围查询部门ids
-        if (CollectionUtil.isNotEmpty(depts)) {
+        if (depts != null && depts.size() > 0) {
             List<SysRoleDept> roleDepts = depts.stream().map(integer -> {
                 SysRoleDept sysRoleDept = new SysRoleDept();
                 sysRoleDept.setDeptId(integer);
