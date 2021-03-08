@@ -15,4 +15,7 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 
 
     List<SysDept> selectAllDept();
+
+
+    int insertDept(SysDept sysDept);
 }

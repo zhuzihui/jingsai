@@ -66,4 +66,5 @@ public interface ISysDeptService extends IService<SysDept> {
 
     List<SysDept> selectByParentId(int pid);
 
+    int insertDpet(SysDept sysDept);
 }
