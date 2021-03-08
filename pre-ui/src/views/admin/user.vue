@@ -38,8 +38,8 @@
           </el-button>
           <el-button class="filter-item" type="primary" size="small" icon="el-icon-plus" @click="handleAdd">添加
           </el-button>
-          <!-- <el-button class="filter-item" type="primary" size="small" icon="el-icon-upload" @click="importUser">批量导入
-          </el-button> -->
+          <el-button class="filter-item" type="primary" size="small" icon="el-icon-upload" @click="modelDown">批量导入模板下载
+          </el-button>
           <el-upload
             style="display: inline-block;"
             class="cus-upload"
@@ -264,6 +264,9 @@ export default {
     console.log(user.state,'userinfo')
   },
   methods: {
+    modelDown:function(){
+      window.open('/static/批量导入用户模板.xlsx')
+    },
     // 加载用户角色信息
     findUserRoles: function() {
       const params = new URLSearchParams()

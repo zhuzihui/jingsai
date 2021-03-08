@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 
 /**
  * 用户表 前端控制器
@@ -129,6 +130,10 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('sys:user:updatePass')")
     public R updatePass(@RequestParam String oldPass, @RequestParam String newPass) {
         // 校验密码流程
+        boolean isMatch =  Pattern.matches("^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*[0-9].*[0-9])(?=.*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·].*[`~!\\\\@#$%^&*_()-+=<>?:\"{}|,.·]).{8,16}$",newPass);
+        if(!isMatch){
+            throw new PreBaseException("密码长度应至少8位,且应包括数字、字母、特殊符号3类，每类不少于2个");
+        }
         SysUser sysUser = userService.findSecurityUserByUser(new SysUser().setUsername(SecurityUtil.getUser().getUsername()));
         if (!PreUtil.validatePass(oldPass, sysUser.getPassword())) {
             throw new PreBaseException("原密码错误");
